@@ -23,11 +23,17 @@ def read_seq(seq_name):
 
 
 def write_pipe(seq_name):
+    pipe_file = os.path.join(PIPE_PATH, f"pipe_{seq_name}.txt")
     seq = read_seq(seq_name)
     while True:
         for (bw, loss, delay) in seq:
-            sleep(0.03) # sleep for 30ms
+            sleep(0.1) # sleep for 100ms
             # write to the adversary_update_pipe
+            # assume the reading/checking interval in the shell is less than 100ms
+            pipe_f = open(pipe_file, "w")
+            pipe_f.write(f"{bw},{loss},{delay}\n")
+            pipe_f.close()
+
 
 if __name__ == "__main__":
     # seq_name
